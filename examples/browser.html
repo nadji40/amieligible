@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>AMIELIGIBLE - demonstration</title>
+
+<form id="signup" action="/submit" method="post" novalidate>
+  <h1>Creation de compte</h1>
+  <label>Nom <input data-fld="name" autocomplete="name" required /></label>
+  <label>Email <input data-fld="email" type="email" autocomplete="email" required /></label>
+  <label>Telephone <input data-fld="phone" inputmode="tel" placeholder="+213" /></label>
+  <button type="submit">S'inscrire</button>
+  <p id="status" role="status"></p>
+</form>
+
+<label style="display:block;margin-top:1rem">
+  <input type="checkbox" id="consent" />
+  J'accepte l'analyse anti-fraude de mon appareil.
+</label>
+
+<script type="module">
+  import { AntiBotClient } from '../src/client/index.js';
+
+  const statusEl = document.getElementById('status');
+  const consentEl = document.getElementById('consent');
+
+  const client = new AntiBotClient({
+    formId: 'signup',
+    challengeUrl: '/antibot/challenge',
+    verifyUrl: '/antibot/verify',
+    consentGranted: consentEl.checked,
+  });
+
+  consentEl.addEventListener('change', () => client.setConsent(consentEl.checked));
+
+  client.protect(document.getElementById('signup'), {
+    autoIntercept: true,
+    onDecision: (result) => {
+      const action = result.body && result.body.action;
+      if (action === 'allow') {
+        statusEl.textContent = 'Verifie, inscription en cours.';
+      } else if (action === 'challenge') {
+        statusEl.textContent = 'Verification supplementaire requise.';
+      } else {
+        statusEl.textContent = 'Requete refusee.';
+      }
+    },
+  });
+</script>

@@ -1,0 +1,35 @@
+{
+  "name": "amieligible",
+  "version": "1.0.0",
+  "description": "AMIELIGIBLE : boite a outils anti-bot modulaire et sans dependance. Alias de champs par session, pieges dynamiques, instrumentation anti-retro-ingenierie, preuve de travail adaptative, jetons signes, tickets d'autorisation et eligibilite par pays configurable.",
+  "type": "module",
+  "exports": {
+    "./client": "./src/client/index.js",
+    "./client-standalone": "./src/client/standalone.js",
+    "./server": "./src/server/index.js",
+    "./shared": "./src/shared/schema.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "bench": "node bench/bench.js",
+    "example": "node examples/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "anti-bot",
+    "antispam",
+    "honeypot",
+    "proof-of-work",
+    "fingerprint",
+    "rate-limit",
+    "geofencing",
+    "security"
+  ],
+  "license": "MIT"
+}
